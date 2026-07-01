@@ -1,219 +1,251 @@
-# Boba-blast<!DOCTYPE html>
+# Boba-blast
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Boba Blast</title>
+<title>Boba Blast — Order</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Poppins;
-}
-
 body{
-  background: linear-gradient(135deg,#ffe6f0,#e6f7ff,#fff3e6);
-  min-height:100vh;
-  overflow-x:hidden;
-  color:#1c1c1c;
+  margin:0;
+  font-family:Inter;
+  background:#faf7f4;
+  color:#1d1d1d;
 }
 
-/* floating bubbles */
-.bubble{
-  position:fixed;
-  bottom:-50px;
-  width:20px;
-  height:20px;
-  background:rgba(255,255,255,0.5);
-  border-radius:50%;
-  animation:rise 12s infinite linear;
+header{
+  padding:20px 40px;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #eee;
 }
 
-@keyframes rise{
-  to{transform:translateY(-120vh);opacity:0;}
-}
+h1{font-size:20px}
 
-/* HERO */
-.hero{
-  text-align:center;
-  padding:80px 20px 40px;
-}
-
-.hero h1{
-  font-size:3.5rem;
-  font-weight:600;
-  letter-spacing:-1px;
-}
-
-.hero p{
-  opacity:0.7;
-  margin-top:10px;
-}
-
-/* MENU GRID (instagram feed style) */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+.container{
+  display:flex;
   gap:20px;
-  padding:30px;
+  padding:20px;
 }
 
-/* GLASS CARD */
+/* MENU */
+.menu{
+  flex:2;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
 .card{
-  background:rgba(255,255,255,0.4);
-  backdrop-filter:blur(14px);
-  border-radius:20px;
-  padding:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.05);
-  transition:0.3s;
+  background:white;
+  padding:14px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
 }
 
-.card:hover{
-  transform:translateY(-6px);
-}
-
-.img{
-  height:160px;
-  border-radius:16px;
-  background-size:cover;
-  background-position:center;
-}
-
-.btn{
-  margin-top:10px;
-  padding:10px 14px;
-  border:none;
-  border-radius:999px;
-  background:#ff4fa3;
+button{
+  background:#00754a;
   color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:20px;
   cursor:pointer;
 }
 
 /* CART */
 .cart{
-  position:fixed;
-  right:20px;
-  bottom:20px;
+  flex:1;
   background:white;
-  padding:14px 16px;
-  border-radius:999px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  font-weight:500;
+  padding:16px;
+  border-radius:14px;
+  height:fit-content;
+  position:sticky;
+  top:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.item{
+  border-bottom:1px solid #eee;
+  padding:10px 0;
+  font-size:14px;
+}
+
+.small{
+  font-size:12px;
+  opacity:0.7;
+}
+
+.total{
+  font-weight:700;
+  margin-top:10px;
 }
 
 /* MODAL */
 .modal{
-  display:none;
   position:fixed;
-  inset:0;
+  top:0;left:0;
+  width:100%;
+  height:100%;
   background:rgba(0,0,0,0.5);
+  display:none;
   align-items:center;
   justify-content:center;
 }
 
-.modal-box{
+.modal-content{
   background:white;
   padding:20px;
-  border-radius:20px;
-  width:300px;
+  border-radius:14px;
+  width:320px;
 }
 
 select{
   width:100%;
   padding:8px;
   margin:6px 0;
-  border-radius:10px;
-  border:1px solid #eee;
 }
 </style>
 </head>
 
 <body>
 
-<!-- bubbles -->
-<div class="bubble" style="left:10%;animation-delay:0s"></div>
-<div class="bubble" style="left:25%;animation-delay:2s"></div>
-<div class="bubble" style="left:50%;animation-delay:4s"></div>
-<div class="bubble" style="left:70%;animation-delay:1s"></div>
+<header>
+  <h1>Boba Blast 🍓</h1>
+  <div id="cartCount">Cart: 0</div>
+</header>
 
-<div class="hero">
-  <h1>Boba Blast 🧋</h1>
-  <p>soft • sweet • aesthetic bubble tea made fresh</p>
-</div>
+<div class="container">
 
 <!-- MENU -->
-<div class="grid">
+<div class="menu">
 
   <div class="card">
-    <div class="img" style="background-image:url('https://images.unsplash.com/photo-1558857563-b371033873b8')"></div>
     <h3>Brown Sugar Milk Tea</h3>
     <p>£5.85</p>
-    <button class="btn" onclick="openModal('Brown Sugar Milk Tea',5.85)">Add</button>
+    <button onclick="openCustom('Brown Sugar Milk Tea',5.85)">Add</button>
   </div>
 
   <div class="card">
-    <div class="img" style="background-image:url('https://images.unsplash.com/photo-1556679343-c7306c1976bc')"></div>
-    <h3>Blue Lychee Tea</h3>
-    <p>£5.10</p>
-    <button class="btn" onclick="openModal('Blue Lychee Tea',5.10)">Add</button>
-  </div>
-
-  <div class="card">
-    <div class="img" style="background-image:url('https://images.unsplash.com/photo-1558857563-2b2a8b4b0c1f')"></div>
     <h3>Ube Taro Milk Tea</h3>
     <p>£5.85</p>
-    <button class="btn" onclick="openModal('Ube Taro Milk Tea',5.85)">Add</button>
+    <button onclick="openCustom('Ube Taro Milk Tea',5.85)">Add</button>
+  </div>
+
+  <div class="card">
+    <h3>Blue Lychee Tea</h3>
+    <p>£5.10</p>
+    <button onclick="openCustom('Blue Lychee Tea',5.10)">Add</button>
+  </div>
+
+  <div class="card">
+    <h3>Matcha Latte</h3>
+    <p>£5.85</p>
+    <button onclick="openCustom('Matcha Latte',5.85)">Add</button>
   </div>
 
 </div>
 
 <!-- CART -->
 <div class="cart">
-🛒 <span id="count">0</span> items
+  <h3>Your Order</h3>
+  <div id="cart"></div>
+  <div class="total" id="total">Total: £0.00</div>
+</div>
+
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-  <div class="modal-box">
-    <h3 id="title"></h3>
+  <div class="modal-content">
+
+    <h3 id="drinkName"></h3>
+
+    <label>Size</label>
+    <select id="size">
+      <option value="0">Regular</option>
+      <option value="0.5">Large (+£0.50)</option>
+    </select>
 
     <label>Sweetness</label>
-    <select>
+    <select id="sweet">
       <option>100%</option>
       <option>75%</option>
       <option>50%</option>
       <option>25%</option>
+      <option>0%</option>
     </select>
 
     <label>Ice</label>
-    <select>
+    <select id="ice">
       <option>Regular</option>
       <option>Less</option>
       <option>No Ice</option>
     </select>
 
-    <button class="btn" onclick="add()">Add to Cart</button>
+    <button onclick="addToCart()">Add to Cart</button>
+    <button onclick="closeModal()" style="background:#999;margin-top:10px;">Close</button>
+
   </div>
 </div>
 
 <script>
-let cart=0;
-let current="";
+let cart = [];
+let currentDrink = null;
+let basePrice = 0;
 
-function openModal(name){
-  current=name;
-  document.getElementById("title").innerText=name;
-  document.getElementById("modal").style.display="flex";
+function openCustom(name, price){
+  currentDrink = name;
+  basePrice = price;
+  document.getElementById("drinkName").innerText = name;
+  document.getElementById("modal").style.display = "flex";
 }
 
-function add(){
-  cart++;
-  document.getElementById("count").innerText=cart;
-  document.getElementById("modal").style.display="none";
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+function addToCart(){
+  let size = parseFloat(document.getElementById("size").value);
+  let price = basePrice + size;
+
+  cart.push({
+    name: currentDrink,
+    price: price
+  });
+
+  updateCart();
+  closeModal();
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  updateCart();
+}
+
+function updateCart(){
+  let cartDiv = document.getElementById("cart");
+  cartDiv.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((item,i)=>{
+    total += item.price;
+
+    cartDiv.innerHTML += `
+      <div class="item">
+        ${item.name} - £${item.price.toFixed(2)}
+        <div class="small"><button onclick="removeItem(${i})">Remove</button></div>
+      </div>
+    `;
+  });
+
+  document.getElementById("total").innerText = "Total: £" + total.toFixed(2);
+  document.getElementById("cartCount").innerText = "Cart: " + cart.length;
 }
 </script>
 
